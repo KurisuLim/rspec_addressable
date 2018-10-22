@@ -1,19 +1,14 @@
 require 'addressable'
+require 'support/shared_examples'
 
 RSpec.describe Addressable do
-    it 'parses the scheme' do
-        expect(Addressable::URI.parse('https://a.com/').scheme).to eq 'https'
-    end
+  it_behaves_like 'a URI parsing library', Addressable::URI
 
-    it 'parses the host' do
-        expect(Addressable::URI.parse('https://foo.com/').host).to eq 'foo.com'
-    end
+  it 'does not default the port for an http URI' do
+    expect(Addressable::URI.parse('http://example.com/').port).to eq nil
+  end
 
-    it 'parse the port' do
-        expect(Addressable::URI.parse('http://example.com:9876').port).to eq 9876
-    end
-
-    it 'parses the path' do
-        expect(Addressable::URI.parse('http://a.com/foo').path).to eq '/foo'
-    end
+  it 'does not default the port for an https URI' do
+    expect(Addressable::URI.parse('https://example.com').port).to eq nil
+  end
 end
